@@ -1,0 +1,43 @@
+﻿@model Outsurance.Web.Models.FileModel
+@{
+    ViewBag.Title = "File Import";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@Scripts.Render("~/bundles/jquery")
+@using (Html.BeginForm("ProcessFile", "Home", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    <div class="FileUploaderContainer">
+        <div class="form-group">
+            <input type="file" title="Choose file" name="@Html.NameFor(x => x.file)" id="@Html.IdFor(x => x.file)" />
+            @*Created a fancier validation so I commented out this 'normal' one
+                <br />
+                @Html.ValidationMessageFor(x => x.file, "", new { @class = "text-danger" })*@
+        </div>
+        <button style="margin-top:10px" type="submit" class="btn btn-primary">
+            Upload
+        </button>
+        <br /><br />
+    </div>
+}
+@if (Model.ProcessingComplete)
+{
+    @Html.HiddenFor(x => x.PathToOutPutFolder, new { @Id = "PathToOutPutFolder" })
+    <a id="ViewOutPutFiles" style="cursor:pointer" class="FileUploaderContainer glyphicon glyphicon-folder-open"> View output files</a>
+}
+
+    @*Open the folder where the output files are sitting*@
+    <script type="text/javascript">
+    $(document).on('click', '#ViewOutPutFiles', function () {
+        $.ajax({
+            url: '@Url.Action("OpenOutPutFolder", "Home")',
+            Type: 'GET',
+            cache: false,
+            async: true,
+            data: { PathToOutPutFolder: $('#PathToOutPutFolder').val() },
+            error: function (xhr, ajaxOptions, thrownError) {
+                alert('An error occurred !');
+            }
+        })
+    });
+    </script>
+

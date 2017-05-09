@@ -1,0 +1,81 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+
+</head>
+<body style="overflow:visible">
+
+    <div id="preloader" style="display:none">
+        <div class="loader" style="display:none">&nbsp;</div>
+    </div>
+
+    <div class="navbar navbar-inverse navbar-fixed-top">
+        <div class="">
+            <div class="navbar-header">
+                <a href='@Url.Action("Index", "Home")'>
+                    <img src='@Url.Content("~/Images/OutsuranceLogo.jpg")' height="55" title="Home" width="250" alt="Logo failed to load !!" />
+                </a>
+            </div>
+
+        </div>
+    </div>
+    <div class="container body-content">
+        @if (ViewData["TempErrorMessage"] != null)
+            {
+            <div class="alert alert-danger text-center" style="margin-top:10px" id="error-alert"><strong>Error!</strong> @ViewData["TempErrorMessage"]</div>
+        }
+        @if (ViewData["TempSuccessMessage"] != null)
+            {
+            <div class="alert alert-success text-center" style="margin-top:10px" id="success-alert"><strong>Success!</strong> @ViewData["TempSuccessMessage"]</div>
+        }
+        @RenderBody()
+        <hr />
+        <footer>
+            <p class="text-center">Copyright Paul Moreira &copy; @DateTime.Now.Year | All Rights Reserved</p>
+        </footer>
+    </div>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+</body>
+</html>
+<script>
+
+    document.addEventListener("DOMContentLoaded", documentLoaded, false)
+
+    function documentLoaded() {
+        hidePreLoader();
+    }
+
+    function showPreLoader() {
+        $('#preloader').show();
+        $('.loader').show();
+    }
+
+    function hidePreLoader() {
+        $('#preloader').fadeOut(500);
+        $('.loader').fadeOut(500);
+    }
+    //Show preloader whenever a form is submitted to prevent further user input while server is busy processing the file
+    $("form").submit(function (e) {
+            showPreLoader();
+    });
+
+    //This will show an error or a success message for 2 seconds
+    $(document).ready(function () {
+        $("#success-alert").fadeTo(2000, 500).slideUp(500, function () {
+            $("#success-alert").slideUp(500);
+        });
+
+        $("#error-alert").fadeTo(2000, 500).slideUp(500, function () {
+            $("#error-alert").slideUp(500);
+        });
+
+    })
+</script>
