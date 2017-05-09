@@ -95,6 +95,7 @@ namespace DataProcessing.Engine
                 //csvread will fetch all record in one go to the IEnumerable object record
                 IEnumerable<Person> record = csvread.GetRecords<Person>();
 
+                //Add each person in the file to the object
                 foreach (var rec in record)
                 {
                     UnsortedPersons.Add(new Person()
