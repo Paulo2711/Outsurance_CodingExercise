@@ -1,4 +1,5 @@
-﻿using Outsurance.Web.CustomAttributes;
+﻿using DataProcessing.Helpers;
+using Outsurance.Web.CustomAttributes;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,7 +12,7 @@ namespace Outsurance.Web.Models
         [ImportFileUploadValidation(ErrorMessage = "Please select a data import file")]
         public HttpPostedFileBase file { get; set; }
 
-        public string PathToOutPutFolder { get; set; } = string.Empty;
+        public string PathToOutPutFolder { get; set; } = ConfigAppSettings.OutputFileLocation;
         public bool ProcessingComplete { get; set; } = false;
 
     }

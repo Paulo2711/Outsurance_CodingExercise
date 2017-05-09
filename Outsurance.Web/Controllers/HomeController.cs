@@ -38,19 +38,21 @@ namespace Outsurance.Web.Controllers
         public ActionResult ProcessFile(FileModel model)
         {
             if (!ModelState.IsValid)
-                return HandleError("file", "Please upload an XML import file !", "~/Views/Home/Index.cshtml", model);
+                return HandleError("file", "Please upload a valid import file !", "~/Views/Home/Index.cshtml", model);
 
             try
             {
 
-
-                //Now we can attempt to process the file
                 //Now we can attempt to process the file
                 ProcessFile processor = new ProcessFile();
-                processor.MainProcess(model.file.FileName); 
-                model.ProcessingComplete = true;
-                //model.PathToOutPutFolder = processor.DeskTopPath;
+                DataProcessResult DPR = processor.MainProcess(model.file.FileName);
+                model.ProcessingComplete = DPR.ProcessSuccess;
 
+                if (DPR.ProcessSuccess.Equals(false))
+                {
+                    return HandleError("file", $"Unexpected Error : {DPR.ErrorMessage}", "~/Views/Home/Index.cshtml", model);
+
+                }
 
             }
             //Should the try catch(s) be removed, the system will redirect to a generic error page set in the global.asax file

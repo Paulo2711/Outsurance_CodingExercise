@@ -14,6 +14,7 @@ namespace DataProcessing.Helpers
         public static readonly string AllowedFileUploadExtension = ConfigurationManager.AppSettings["AllowedFileUploadExtension"]?.ToString() ?? string.Empty;
         public static readonly string OutputFileLocation_Person = ConfigurationManager.AppSettings["OutputFileLocation_Person"]?.ToString() ?? @"C:\OutsuranceData\Output_PersonSorted.csv";
         public static readonly string OutputFileLocation_Address = ConfigurationManager.AppSettings["OutputFileLocation_Address"]?.ToString() ?? @"C:\OutsuranceData\Output_AddressSorted.csv";
+        public static readonly string OutputFileLocation = ConfigurationManager.AppSettings["OutputFileLocation"]?.ToString() ?? @"C:\OutsuranceData\";
     }
 
 }

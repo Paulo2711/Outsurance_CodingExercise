@@ -44,13 +44,15 @@ namespace DataProcessing.Engine
             try
             {
 
+                //Read the data from the file into a Person List
                 _absolutePath = absolutePath;
                 List<Person> P = new List<Person>(ReadMe());
-
-
+                
+                //Sort the Person list and write to a csv file
                 List<SortedPerson> SP = SortFrequency(P);
                 WriteCSV_Person(SP);
 
+                //Sort the Address list and write to a csv file
                 List<AddressValues> AV = AddressSort();
                 WriteCSV_Address(AV);
             }
