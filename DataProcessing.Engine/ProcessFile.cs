@@ -53,7 +53,7 @@ namespace DataProcessing.Engine
                 WriteCSV_Person(SP);
 
                 //Sort the Address list and write to a csv file
-                List<AddressValues> AV = AddressSort();
+                List<AddressValues> AV = AddressSort(ReadInputFIle());
                 WriteCSV_Address(AV);
             }
             catch (DirectoryNotFoundException e)
@@ -131,9 +131,11 @@ namespace DataProcessing.Engine
         //////</summary>
         ////// <paramref name="List<Person>"> List of object Person</paramref>
         ////// <returns>Person collection which is sorted</returns>
-        private List<SortedPerson> SortFrequency(List<Person> P)
+        public List<SortedPerson> SortFrequency(List<Person> P)
         {
 
+            //Check the data validates correctly
+            Validation.ValidateCollection(P);
 
             StringBuilder s = new StringBuilder();
             List<SortedPerson> SP = new List<SortedPerson>();
@@ -187,21 +189,23 @@ namespace DataProcessing.Engine
         }
 
 
+        private List<AddressValues> ReadInputFIle()
+        {
+            return File.ReadAllLines(_absolutePath)
+                            .Skip(1)
+                            .Select(v => AddressValues.FromCsv(v))
+                            .ToList();
+        }
+
         //////<summary>
         ////// show the addresses sorted alphabetically by street name.
         //////</summary>
         ////// <returns>Address collection which is sorted</returns>
-        public List<AddressValues> AddressSort()
+        public List<AddressValues> AddressSort(List<AddressValues> LAV)
         {
           try
-            { 
-            List<AddressValues> values = File.ReadAllLines(_absolutePath)
-                             .Skip(1)
-                             .Select(v => AddressValues.FromCsv(v))
-                             .ToList();
-
-            return values.OrderBy(x => x.AddressStreet).ToList();
-
+            {
+                return LAV.OrderBy(x => x.AddressStreet).ToList();
             }
             catch(Exception ex)
             {
